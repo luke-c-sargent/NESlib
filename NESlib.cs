@@ -73,6 +73,12 @@ namespace NESlib
             }
         }
 
+        //- get a particular point value
+        public int getPoint(int x, int y)
+        {
+            return this.pixelArray[x, y];
+        }
+
         //+ set a particular point value
         public void setPoint(int x,int y,int val){
             this.pixelArray[x,y]=val;
