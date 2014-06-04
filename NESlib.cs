@@ -240,5 +240,12 @@ namespace NESlib
 			else
 				this.color = val;
 		}
+
+        public string toHex()
+        {
+            string result = "";
+            GlobalVars.nesHexColorDict.TryGetValue(this.color, out result);
+            return result;
+        }
 	}
 }
