@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace NESlib
 {
@@ -27,8 +28,7 @@ namespace NESlib
 		  };
 
 	}
-	
-	
+
 	public class Palette{
 		//16 bytes- NES has 2 palettes: bg and sprite\
 		//color sets of 4;
@@ -108,6 +108,68 @@ namespace NESlib
 			}
 			return result;
 		}
+
+        public Bitmap toBMP(Color c1, Color c2, Color c3, Color c4){
+            Bitmap result = new Bitmap(8, 8);
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Color temp = new Color();
+                    switch (this.getPoint(i, j))
+                    {
+                        case 0:
+                            temp = c1;
+                            break;
+                        case 1:
+                            temp = c2;
+                            break;
+                        case 2:
+                            temp = c3;
+                            break;
+                        case 3:
+                            temp = c4;
+                            break;
+                        default:
+                            break;
+                    }
+                    result.SetPixel(j, i, temp);
+                }
+            }
+            return result;
+        }
+
+        public Bitmap toBMP(NEScolor c1, NEScolor c2, NEScolor c3, NEScolor c4)
+        {
+            Bitmap result = new Bitmap(8, 8);
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Color temp = new Color();
+                    switch (this.getPoint(i, j))
+                    {
+                        case 0:
+                            temp = c1.toColor();
+                            break;
+                        case 1:
+                            temp = c2.toColor();
+                            break;
+                        case 2:
+                            temp = c3.toColor();
+                            break;
+                        case 3:
+                            temp = c4.toColor();
+                            break;
+                        default:
+                            break;
+                    }
+                    result.SetPixel(i, j, temp);
+                }
+            }
+            return result;
+        }
+
     }
 
     public class PPUs
@@ -245,6 +307,13 @@ namespace NESlib
         {
             string result = "";
             GlobalVars.nesHexColorDict.TryGetValue(this.color, out result);
+            return result;
+        }
+
+        public Color toColor()
+        {
+            Color result = new Color();
+            result = System.Drawing.ColorTranslator.FromHtml(this.toHex());
             return result;
         }
 	}
